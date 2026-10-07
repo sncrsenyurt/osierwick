@@ -1,7 +1,7 @@
 {
-  "name": "journey-uptime",
+  "name": "osierwick",
   "version": "0.0.1",
-  "description": "Synthetic multi-step uptime monitor powered by Playwright. Login, dashboard, and assert journeys — runner not implemented yet.",
+  "description": "Placeholder for browser walks that sign in and look for a line of text. Runner not written.",
   "license": "MIT",
   "author": "İrfan Senyurt",
   "type": "module",
@@ -9,7 +9,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "check": "echo \"not implemented yet\""
+    "check": "echo \"osierwick: nothing to run yet\""
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

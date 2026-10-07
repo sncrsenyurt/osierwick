@@ -1,0 +1,41 @@
+# Blank sample. osierwick does not load this file.
+# I wrote the field names down so the next pass has somewhere to start.
+#
+# label: what I call this walk
+# door:  address to begin at
+# binds: motions, in order. acts I want later —
+#   open   — load an address        (at)
+#   scribe — type into a control    (at, words)
+#   nudge  — press a control        (at)
+#   sight  — a line should be there (at, line)
+# whisper.to: where a failure would be posted, once that exists
+#
+# [[bind]]
+# act = "open"
+# at = "https://example.com/login"
+#
+# [[bind]]
+# act = "scribe"
+# at = "input[name=email]"
+# words = "user@example.com"
+#
+# [[bind]]
+# act = "scribe"
+# at = "input[name=password]"
+# words = "${PASSWORD}"
+#
+# [[bind]]
+# act = "nudge"
+# at = "button[type=submit]"
+#
+# [[bind]]
+# act = "sight"
+# at = "**/home"
+# line = "Signed in"
+
+label = "porch-light"
+door = ""
+binds = []
+
+[whisper]
+to = ""
