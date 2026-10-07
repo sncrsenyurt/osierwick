@@ -1,23 +1,20 @@
-# journey-uptime
+# osierwick
 
-Synthetic multi-step uptime monitor. A browser will walk a journey (login, open a dashboard, assert what should be on the page) instead of pinging a single URL.
+I keep finding a site is broken only when I try to sign in. The homepage still answers. I want a small program that opens the door, types, presses the button, and checks that a line of text is actually there.
 
-## Status
+This repo is that idea with the code missing. Early scaffold. No runner, no alerts, no CI.
 
-Early scaffold. This is day 1: config shape and package metadata only. There is no runner, no alerts, and no CI.
+## What I mean to add
 
-## Planned
+- One TOML file per walk, under `osiers/`
+- Playwright to carry out the binds in that file
+- A note to Discord or Slack when a bind fails, with a screenshot
 
-- Journeys in YAML: `goto`, `fill`, `click`, `expect`
-- Login, then dashboard, then assertions
-- Discord and Slack alerts when a step fails
-- Screenshots attached to those alerts
-
-None of that is implemented in this commit.
+None of that is hooked up. `npm run check` says so and exits.
 
 ## Stack
 
-Playwright and TypeScript. Node.js 18 or newer.
+TypeScript, Playwright, Node 18 or newer.
 
 ## Install
 
@@ -26,9 +23,7 @@ npm install
 npm run check
 ```
 
-`npm run check` is a stub. It prints that the runner is not implemented yet. Dependencies are listed so the toolchain can be installed; nothing executes a journey.
-
-`journeys/example.journey.yaml` shows the config shape we intend to load later. It is a sample and is not wired up.
+`osiers/porch-light.toml` is a blank sample so I don't forget the field names. Nothing reads it.
 
 ## License
 

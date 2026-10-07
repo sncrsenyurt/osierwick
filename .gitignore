@@ -1,6 +1,9 @@
 node_modules/
 dist/
+
+# leftover browser output, for when a runner exists
 playwright-report/
 test-results/
-.env
 screenshots/
+
+.env
