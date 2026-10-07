@@ -1,0 +1,18 @@
+{
+  "name": "journey-uptime",
+  "version": "0.0.1",
+  "description": "Synthetic multi-step uptime monitor powered by Playwright. Login, dashboard, and assert journeys — runner not implemented yet.",
+  "license": "MIT",
+  "author": "İrfan Senyurt",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "check": "echo \"not implemented yet\""
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "typescript": "^7.0.2"
+  }
+}
