@@ -1,7 +1,7 @@
 {
   "name": "osierwick",
   "version": "0.0.1",
-  "description": "Placeholder for browser walks that sign in and look for a line of text. Runner not written.",
+  "description": "Reads osiermap files from osiers/*.toml and lists them. The browser walk is not written.",
   "license": "MIT",
   "author": "İrfan Senyurt",
   "type": "module",
@@ -9,10 +9,15 @@
     "node": ">=18"
   },
   "scripts": {
-    "check": "echo \"osierwick: nothing to run yet\""
+    "check": "tsc -p tsconfig.json && node dist/osierwick.js",
+    "test": "tsc -p tsconfig.json && node --test dist/osiermap.test.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.4",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "smol-toml": "^1.9.0"
   }
 }
