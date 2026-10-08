@@ -1,34 +1,30 @@
-# Blank sample. osierwick does not load this file.
-# I wrote the field names down so the next pass has somewhere to start.
+# Sample osiermap. `npm run check` reads this and lists it.
+# Binds stay commented out, so the count is zero.
 #
-# label: what I call this walk
-# door:  address to begin at
-# binds: motions, in order. acts I want later —
-#   open   — load an address        (at)
-#   scribe — type into a control    (at, words)
-#   nudge  — press a control        (at)
-#   sight  — a line should be there (at, line)
-# whisper.to: where a failure would be posted, once that exists
+# label — name in the list
+# door — where the walk would start (empty is fine while I'm sketching)
+# binds — open (at), scribe (at, words), nudge (at), sight (at, line)
+# whisper.to — where a failure would be posted, once that exists
 #
-# [[bind]]
+# [[binds]]
 # act = "open"
 # at = "https://example.com/login"
 #
-# [[bind]]
+# [[binds]]
 # act = "scribe"
 # at = "input[name=email]"
 # words = "user@example.com"
 #
-# [[bind]]
+# [[binds]]
 # act = "scribe"
 # at = "input[name=password]"
 # words = "${PASSWORD}"
 #
-# [[bind]]
+# [[binds]]
 # act = "nudge"
 # at = "button[type=submit]"
 #
-# [[bind]]
+# [[binds]]
 # act = "sight"
 # at = "**/home"
 # line = "Signed in"
