@@ -1,7 +1,7 @@
 node_modules/
 dist/
 
-# leftover browser output, for when a runner exists
+# browser output from a walk
 playwright-report/
 test-results/
 screenshots/

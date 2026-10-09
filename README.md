@@ -2,25 +2,27 @@
 
 I keep finding a site is broken only when I try to sign in. The homepage still answers. I want a small program that opens the door, types, presses the button, and checks that a line of text is actually there.
 
-The reader exists. The browser part does not. No alerts, no CI.
+The reader exists, and the walker can carry out binds. Still no screenshot when one fails, no whisper, no CI.
 
 ## Osiermaps
 
-Each `osiers/*.toml` is one walk. `npm run check` loads them and prints the label, the door, and how many binds are in the file.
+Each `osiers/*.toml` is one walk. `npm run check` loads them. A map with no binds is only listed. `npm run walk` is the same load: a map that has binds is carried out in a browser.
 
 - `label` — name in that list
-- `door` — where the walk would start
+- `door` — opened once before the binds, when it is not empty
 - `binds` — in order: `open` (`at`), `scribe` (`at`, `words`), `nudge` (`at`), `sight` (`at`, `line`)
 - `whisper.to` — where a failure would go, later
 
-A bad file stops the check. The message names the file and, when a bind is wrong, the bind index.
+`open` goes to `at`. `scribe` fills that locator; `${NAME}` in `words` comes from the environment. `nudge` clicks. `sight` treats `at` as a URL glob such as `**/home`, then looks for `line`. If `at` is a CSS selector instead, it waits for that locator and then looks for the line.
+
+A bad file stops the load. A bind that fails stops the walk. The message names the file and the bind index.
 
 `osiers/porch-light.toml` is still an empty walk. I left the binds commented out.
 
 ## What is still missing
 
-- Playwright actually carrying out a bind
-- A note to Discord or Slack when one fails, with a screenshot
+- A screenshot when a bind fails
+- A note to Discord or Slack (`whisper.to`)
 
 ## Stack
 
@@ -30,6 +32,7 @@ TypeScript, Playwright, Node 18 or newer. TOML via smol-toml.
 
 ```bash
 npm install
+npx playwright install chromium
 npm run check
 ```
 
