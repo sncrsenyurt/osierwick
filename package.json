@@ -1,7 +1,7 @@
 {
   "name": "osierwick",
   "version": "0.0.1",
-  "description": "Reads osiermap files from osiers/*.toml and lists them. The browser walk is not written.",
+  "description": "Reads osiermaps from osiers/*.toml and walks their binds in a browser.",
   "license": "MIT",
   "author": "İrfan Senyurt",
   "type": "module",
@@ -10,7 +10,8 @@
   },
   "scripts": {
     "check": "tsc -p tsconfig.json && node dist/osierwick.js",
-    "test": "tsc -p tsconfig.json && node --test dist/osiermap.test.js"
+    "walk": "tsc -p tsconfig.json && node dist/osierwick.js",
+    "test": "tsc -p tsconfig.json && node --test dist/osiermap.test.js dist/wickwalk.test.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
@@ -18,6 +19,7 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
+    "playwright": "^1.63.0",
     "smol-toml": "^1.9.0"
   }
 }

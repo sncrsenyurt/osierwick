@@ -1,4 +1,5 @@
 import { OsiermapFault, readOsiers } from "./osiermap.js";
+import { WickwalkFault, wickwalk } from "./wickwalk.js";
 
 try {
   const found = readOsiers("osiers");
@@ -9,11 +10,17 @@ try {
     console.log(`osierwick: ${found.length} ${noun}`);
     for (const { file, map } of found) {
       const door = map.door === "" ? "(empty)" : map.door;
-      console.log(`${file}  ${map.label}  door=${door}  binds=${map.binds.length}`);
+      if (map.binds.length === 0) {
+        console.log(`${file}  ${map.label}  door=${door}  binds=0`);
+        continue;
+      }
+      console.log(`${file}  ${map.label}  door=${door}  carrying ${map.binds.length} binds`);
+      await wickwalk(file, map);
+      console.log(`${file}  ${map.label}  carried`);
     }
   }
 } catch (err: unknown) {
-  if (err instanceof OsiermapFault) {
+  if (err instanceof OsiermapFault || err instanceof WickwalkFault) {
     console.error(err.message);
     process.exit(1);
   }
