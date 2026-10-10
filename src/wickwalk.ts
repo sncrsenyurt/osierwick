@@ -1,24 +1,31 @@
+import { mkdir } from "node:fs/promises";
+import path from "node:path";
 import { chromium, type Browser, type Page } from "playwright";
 import type { Bind, Osiermap, SightBind } from "./osiermap.js";
 
 const WORD_HOLE = /\$\{([A-Za-z_][A-Za-z0-9_]*)\}/g;
+const SOOT_DIR = "soot";
 
 export type WickwalkOpts = {
   headless?: boolean;
   timeoutMs?: number;
   env?: NodeJS.ProcessEnv;
+  sootDir?: string;
 };
 
 export class WickwalkFault extends Error {
   readonly file: string;
   readonly bindIndex: number | null;
+  readonly soot: string | null;
 
-  constructor(file: string, detail: string, bindIndex?: number) {
+  constructor(file: string, detail: string, bindIndex?: number, soot: string | null = null) {
     const head = bindIndex === undefined ? file : `${file}: bind index ${bindIndex}`;
-    super(`${head}: ${detail}`);
+    const body = soot === null ? detail : `${detail}\nsoot ${soot}`;
+    super(`${head}: ${body}`);
     this.name = "WickwalkFault";
     this.file = file;
     this.bindIndex = bindIndex ?? null;
+    this.soot = soot;
   }
 }
 
@@ -46,10 +53,16 @@ export function weaveWords(words: string, env: NodeJS.ProcessEnv = process.env):
   });
 }
 
+export function sootName(label: string, step: string, when = new Date()): string {
+  const stamp = when.toISOString().replace(/[-:]/g, "").replace(".", "");
+  return `${fileToken(label)}-${stamp}-${fileToken(step)}.png`;
+}
+
 export async function wickwalk(file: string, map: Osiermap, opts: WickwalkOpts = {}): Promise<void> {
   const headless = opts.headless ?? true;
   const timeoutMs = opts.timeoutMs ?? 20_000;
   const env = opts.env ?? process.env;
+  const sootDir = opts.sootDir ?? SOOT_DIR;
 
   let browser: Browser | undefined;
   try {
@@ -67,7 +80,7 @@ export async function wickwalk(file: string, map: Osiermap, opts: WickwalkOpts =
       try {
         await page.goto(map.door, { waitUntil: "domcontentloaded" });
       } catch (err: unknown) {
-        throw new WickwalkFault(file, `door did not open (${map.door}): ${shortReason(err)}`);
+        await breakWalk(page, file, map.label, sootDir, "door", `door did not open (${map.door}): ${shortReason(err)}`);
       }
     }
 
@@ -75,12 +88,41 @@ export async function wickwalk(file: string, map: Osiermap, opts: WickwalkOpts =
       try {
         await carryBind(page, bind, env);
       } catch (err: unknown) {
-        throw new WickwalkFault(file, detailFor(bind, err), index);
+        await breakWalk(page, file, map.label, sootDir, `bind-${index}-${bind.act}`, detailFor(bind, err), index);
       }
     }
   } finally {
     await browser?.close();
   }
+}
+
+async function breakWalk(
+  page: Page,
+  file: string,
+  label: string,
+  sootDir: string,
+  step: string,
+  detail: string,
+  bindIndex?: number,
+): Promise<never> {
+  const soot = await keepSoot(page, sootDir, label, step);
+  throw new WickwalkFault(file, detail, bindIndex, soot);
+}
+
+async function keepSoot(page: Page, sootDir: string, label: string, step: string): Promise<string | null> {
+  const dest = path.join(sootDir, sootName(label, step));
+  try {
+    await mkdir(sootDir, { recursive: true });
+    await page.screenshot({ path: dest, fullPage: true, type: "png" });
+    return dest;
+  } catch {
+    return null;
+  }
+}
+
+function fileToken(value: string): string {
+  const token = value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return token === "" ? "osier" : token;
 }
 
 async function carryBind(page: Page, bind: Bind, env: NodeJS.ProcessEnv): Promise<void> {
