@@ -11,7 +11,7 @@
   "scripts": {
     "check": "tsc -p tsconfig.json && node dist/osierwick.js",
     "walk": "tsc -p tsconfig.json && node dist/osierwick.js",
-    "test": "tsc -p tsconfig.json && node --test dist/osiermap.test.js dist/wickwalk.test.js"
+    "test": "tsc -p tsconfig.json && node --test dist/osiermap.test.js dist/wickwalk.test.js dist/whisper.test.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
