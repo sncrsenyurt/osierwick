@@ -85,6 +85,7 @@ test("names the file and bind index when a sight misses", { timeout: 30_000 }, a
           assert.ok(err instanceof WickwalkFault);
           assert.equal(err.file, "osiers/lamp.toml");
           assert.equal(err.bindIndex, 1);
+          assert.equal(err.step, "bind-1-sight");
           assert.match(err.message, /osiers\/lamp\.toml: bind index 1: sight did not see "no such lantern"/);
           assert.ok(err.soot);
           assert.match(path.basename(err.soot), /^lamp-\d{8}T\d+Z-bind-1-sight\.png$/);
@@ -117,6 +118,7 @@ test("keeps soot when the door does not open", { timeout: 30_000 }, async () => 
       (err: unknown) => {
         assert.ok(err instanceof WickwalkFault);
         assert.equal(err.bindIndex, null);
+        assert.equal(err.step, "door");
         assert.match(err.message, /door did not open/);
         assert.ok(err.soot);
         assert.match(path.basename(err.soot), /^porch-light-\d{8}T\d+Z-door\.png$/);

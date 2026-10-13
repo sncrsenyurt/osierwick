@@ -4,7 +4,8 @@
 # label — name in the list
 # door — where the walk would start (empty is fine while I'm sketching)
 # binds — open (at), scribe (at, words), nudge (at), sight (at, line)
-# whisper.to — where a failure would be posted, once that exists
+# whisper.to — $ENV holding a Discord or Slack incoming webhook. Empty stays quiet.
+# to = "$OSIER_WHISPER_HOOK"
 #
 # [[binds]]
 # act = "open"

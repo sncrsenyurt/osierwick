@@ -17,8 +17,15 @@ export class WickwalkFault extends Error {
   readonly file: string;
   readonly bindIndex: number | null;
   readonly soot: string | null;
+  readonly step: string | null;
 
-  constructor(file: string, detail: string, bindIndex?: number, soot: string | null = null) {
+  constructor(
+    file: string,
+    detail: string,
+    bindIndex?: number,
+    soot: string | null = null,
+    step: string | null = null,
+  ) {
     const head = bindIndex === undefined ? file : `${file}: bind index ${bindIndex}`;
     const body = soot === null ? detail : `${detail}\nsoot ${soot}`;
     super(`${head}: ${body}`);
@@ -26,6 +33,7 @@ export class WickwalkFault extends Error {
     this.file = file;
     this.bindIndex = bindIndex ?? null;
     this.soot = soot;
+    this.step = step;
   }
 }
 
@@ -69,7 +77,7 @@ export async function wickwalk(file: string, map: Osiermap, opts: WickwalkOpts =
     try {
       browser = await chromium.launch({ headless });
     } catch (err: unknown) {
-      throw new WickwalkFault(file, `browser did not start: ${shortReason(err)}`);
+      throw new WickwalkFault(file, `browser did not start: ${shortReason(err)}`, undefined, null, "browser");
     }
 
     const page = await browser.newPage();
@@ -106,7 +114,7 @@ async function breakWalk(
   bindIndex?: number,
 ): Promise<never> {
   const soot = await keepSoot(page, sootDir, label, step);
-  throw new WickwalkFault(file, detail, bindIndex, soot);
+  throw new WickwalkFault(file, detail, bindIndex, soot, step);
 }
 
 async function keepSoot(page: Page, sootDir: string, label: string, step: string): Promise<string | null> {
