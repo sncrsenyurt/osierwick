@@ -1,0 +1,40 @@
+name: wicknote
+
+on:
+  workflow_dispatch:
+  schedule:
+    # weekday morning, UTC
+    - cron: "20 6 * * 1-5"
+
+permissions:
+  contents: read
+
+jobs:
+  walk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: carry the osiers
+        id: walk
+        env:
+          OSIER_WHISPER_HOOK: ${{ secrets.OSIER_WHISPER_HOOK }}
+        run: npm run evening
+
+      - name: keep soot
+        if: failure() && steps.walk.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: soot
+          path: soot/
+          if-no-files-found: ignore
