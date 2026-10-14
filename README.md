@@ -2,7 +2,7 @@
 
 I keep finding a site is broken only when I try to sign in. The homepage still answers. I want a small program that opens the door, types, presses the button, and checks that a line of text is actually there.
 
-The reader exists, and the walker can carry out binds. When a door or a bind fails, it keeps a full-page picture under `soot/`. If `whisper.to` names a hook, that failure is whispered. Still no CI.
+The reader exists, and the walker can carry out binds. When a door or a bind fails, it keeps a full-page picture under `soot/`. If `whisper.to` names a hook, that failure is whispered. Weekday mornings, wicknote walks them.
 
 ## Osiermaps
 
@@ -18,10 +18,6 @@ Each `osiers/*.toml` is one walk. `npm run check` loads them. A map with no bind
 A bad file stops the load. A bind that fails stops the walk. The message names the file, the bind index, and the soot picture. A set `whisper.to` sends the same failure on; a passing walk stays quiet.
 
 `osiers/porch-light.toml` is still an empty walk. I left the binds commented out.
-
-## What is still missing
-
-- CI
 
 ## Stack
 
