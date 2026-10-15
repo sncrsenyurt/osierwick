@@ -37,7 +37,7 @@ export class WickwalkFault extends Error {
   }
 }
 
-// porch-light writes sight `at` as a URL glob (`**/home`). Anything else is a locator.
+// porch-light writes sight `at` as a URL glob (`https://example.com/**`). Anything else is a locator.
 export function atIsUrlGlob(at: string): boolean {
   if (at.includes("**")) {
     return true;
