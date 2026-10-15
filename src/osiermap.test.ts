@@ -17,15 +17,21 @@ function faultFrom(run: () => void): OsiermapFault {
   assert.fail("expected an OsiermapFault");
 }
 
-test("reads the empty porch-light sample", () => {
+test("reads the porch-light demo", () => {
   const found = readOsiers("osiers");
   assert.equal(found.length, 1);
   const first = found[0];
   assert.ok(first);
   assert.equal(first.file, "osiers/porch-light.toml");
   assert.equal(first.map.label, "porch-light");
-  assert.equal(first.map.door, "");
-  assert.equal(first.map.binds.length, 0);
+  assert.equal(first.map.door, "https://example.com");
+  assert.deepEqual(
+    first.map.binds.map((bind) => bind.act),
+    ["open", "sight"],
+  );
+  const sight = first.map.binds[1];
+  assert.ok(sight && sight.act === "sight");
+  assert.equal(sight.line, "This domain is for use in documentation examples without needing permission.");
   assert.equal(first.map.whisper.to, "");
 });
 
